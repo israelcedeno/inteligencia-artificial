@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#070b16">
+  <title>Algoritmo de Dijkstra | Presentación interactiva</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">✧</div>
+      <div>ALGORITMOS <span>/ GRAFOS</span></div>
+    </div>
+    <div class="top-right">
+      <span class="top-label">Presentación interactiva</span>
+      <button class="icon-button" id="fullscreenBtn" title="Pantalla completa">⛶</button>
+    </div>
+  </header>
+
+  <main class="deck">
+
+    <!-- 01: PORTADA -->
+    <section class="slide active" data-number="01">
+      <div class="cover-grid">
+        <div class="cover-copy">
+          <div class="eyebrow">TEORÍA DE GRAFOS · CAMINOS MÍNIMOS</div>
+          <h1>Algoritmo<br>de <span class="accent">Dijkstra</span></h1>
+          <p class="lead">
+            Una estrategia inteligente para encontrar la ruta
+            de menor costo entre nodos de una red.
+          </p>
+          <div class="gradient-line"></div>
+          <div class="metadata">
+            <div class="pill"><b>01</b> Introducción</div>
+            <div class="pill"><b>02</b> Funcionamiento</div>
+            <div class="pill"><b>03</b> Ejemplo interactivo</div>
+          </div>
+          <p class="small" style="margin-top:28px">
+            Exposición académica · Informática y estructuras de datos
+          </p>
+        </div>
+
+        <svg class="cover-art" viewBox="0 0 520 460">
+          <defs>
+            <linearGradient id="glow">
+              <stop stop-color="#2f80ff"/>
+              <stop offset="1" stop-color="#55d7ff"/>
+            </linearGradient>
+          </defs>
+          <g stroke="#35517a" stroke-width="2" fill="none">
+            <path d="M78 108L212 62L346 120L437 224L354 353L213 389L83 293Z"/>
+            <path d="M78 108L213 389M212 62L213 389M212 62L437 224"/>
+            <path d="M78 293L346 120M83 293L354 353"/>
+          </g>
+          <g stroke="url(#glow)" stroke-width="5" fill="none">
+            <path d="M78 108L212 62L346 120L437 224"/>
+          </g>
+          <g fill="#0d1c35" stroke="#55d7ff" stroke-width="3">
+            <circle cx="78" cy="108" r="29"/>
+            <circle cx="212" cy="62" r="29"/>
+            <circle cx="346" cy="120" r="29"/>
+            <circle cx="437" cy="224" r="29"/>
+            <circle cx="354" cy="353" r="29"/>
+            <circle cx="213" cy="389" r="29"/>
+            <circle cx="83" cy="293" r="29"/>
+          </g>
+          <g fill="#eaf7ff" font-size="18" font-weight="800"
+             text-anchor="middle" dominant-baseline="middle">
+            <text x="78" y="108">A</text>
+            <text x="212" y="62">B</text>
+            <text x="346" y="120">C</text>
+            <text x="437" y="224">D</text>
+            <text x="354" y="353">E</text>
+            <text x="213" y="389">F</text>
+            <text x="83" y="293">G</text>
+          </g>
+          <circle cx="78" cy="108" r="39" fill="none"
+                  stroke="#55d7ff" opacity=".3">
+            <animate attributeName="r" values="30;44;30"
+                     dur="3s" repeatCount="indefinite"/>
+          </circle>
+        </svg>
+      </div>
+    </section>
+
+    <!-- 02: INTRODUCCIÓN -->
+    <section class="slide" data-number="02">
+      <div class="eyebrow">01 · INTRODUCCIÓN</div>
+      <h2>¿Qué es el algoritmo <span class="accent">Dijkstra</span>?</h2>
+      <p class="lead">
+        Es un algoritmo que encuentra caminos de menor costo desde
+        un nodo de origen hacia los demás nodos de un grafo con
+        pesos no negativos.
+      </p>
+
+      <div class="two-col">
+        <article class="card">
+          <div class="card-icon">◎</div>
+          <h3>La idea principal</h3>
+          <p>
+            Explora primero el nodo no visitado con la distancia
+            provisional más baja y actualiza sus vecinos cuando
+            encuentra una ruta mejor.
+          </p>
+        </article>
+        <article class="card">
+          <div class="card-icon">↗</div>
+          <h3>¿Para qué sirve?</h3>
+          <p>
+            Permite calcular rutas de menor costo en mapas,
+            redes informáticas, transporte y diferentes sistemas.
+          </p>
+        </article>
+      </div>
+
+      <div class="callout">
+        <b>Objetivo:</b> comprender cómo funciona el algoritmo,
+        cómo calcula las distancias y cómo encontrar una ruta mínima.
+      </div>
+      <p class="small">
+        Dijkstra, E. W. (1959).
+        <a href="https://doi.org/10.1007/BF01386390"
+           target="_blank" rel="noopener">
+          Consultar publicación original.
+        </a>
+      </p>
+    </section>
+
+    <!-- 03: CONCEPTOS -->
+    <section class="slide" data-number="03">
+      <div class="eyebrow">02 · CONCEPTOS FUNDAMENTALES</div>
+      <h2>Elementos de un <span class="accent">grafo</span></h2>
+      <p>Para comprender Dijkstra debemos conocer estos conceptos.</p>
+
+      <div class="three-col">
+        <article class="card">
+          <div class="number">CONCEPTO 01</div>
+          <h3>Nodo o vértice</h3>
+          <p>Representa un lugar, dispositivo o punto de una red.</p>
+        </article>
+        <article class="card">
+          <div class="number">CONCEPTO 02</div>
+          <h3>Arista</h3>
+          <p>Es la conexión entre dos nodos del grafo.</p>
+        </article>
+        <article class="card">
+          <div class="number">CONCEPTO 03</div>
+          <h3>Peso o costo</h3>
+          <p>Representa la distancia, el tiempo o el costo de una conexión.</p>
+        </article>
+        <article class="card">
+          <div class="number">CONCEPTO 04</div>
+          <h3>Distancia provisional</h3>
+          <p>Es el menor costo conocido hasta ese momento.</p>
+        </article>
+        <article class="card">
+          <div class="number">CONCEPTO 05</div>
+          <h3>Nodo visitado</h3>
+          <p>Es un nodo cuya distancia mínima ya se ha determinado.</p>
+        </article>
+        <article class="card">
+          <div class="number">CONCEPTO 06</div>
+          <h3>Ruta mínima</h3>
+          <p>Es el recorrido que tiene la suma más baja de pesos.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- 04: FUNCIONAMIENTO -->
+    <section class="slide" data-number="04">
+      <div class="eyebrow">03 · FUNCIONAMIENTO</div>
+      <h2>¿Cómo trabaja <span class="accent">paso a paso</span>?</h2>
+      <p>
+        Dijkstra sigue una estrategia voraz: elige el nodo
+        no visitado con menor distancia provisional.
+      </p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="num">1</div>
+          <h3>Inicializar</h3>
+          <p>El origen comienza en cero y los demás en infinito.</p>
+        </div>
+        <div class="step">
+          <div class="num">2</div>
+          <h3>Elegir</h3>
+          <p>Seleccionar el nodo con menor distancia provisional.</p>
+        </div>
+        <div class="step">
+          <div class="num">3</div>
+          <h3>Comparar</h3>
+          <p>Sumar el peso de cada conexión al costo actual.</p>
+        </div>
+        <div class="step">
+          <div class="num">4</div>
+          <h3>Actualizar</h3>
+          <p>Guardar el nuevo costo si la ruta es más barata.</p>
+        </div>
+        <div class="step">
+          <div class="num">5</div>
+          <h3>Repetir</h3>
+          <p>Marcar el nodo como visitado y continuar.</p>
+        </div>
+      </div>
+
+      <div class="callout">
+        <b>Importante:</b> el algoritmo requiere que los pesos
+        de las aristas sean no negativos.
+      </div>
+    </section>
+
+    <!-- 05: EJEMPLO INTERACTIVO -->
+    <section class="slide" data-number="05">
+      <div class="eyebrow">04 · LABORATORIO VISUAL</div>
+      <h2>Ejemplo <span class="accent">interactivo</span></h2>
+      <p class="small">
+        Cambia el origen o el destino y avanza paso a paso
+        para observar cómo se actualizan las distancias.
+      </p>
+
+      <div class="demo-layout">
+        <div class="graph-panel">
+          <svg id="graphSvg" viewBox="0 0 560 330"></svg>
+          <div class="legend small">
+            <span>━━ Conexión</span>
+            <span class="green-text">━━ Ruta mínima</span>
+            <span class="cyan-text">● Nodo actual</span>
+          </div>
+        </div>
+
+        <div class="demo-side">
+          <div class="demo-box">
+            <div class="demo-controls">
+              <div class="field">
+                <label for="sourceSelect">Nodo de origen</label>
+                <select id="sourceSelect">
+                  <option>A</option><option>B</option>
+                  <option>C</option><option>D</option><option>E</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="targetSelect">Nodo de destino</label>
+                <select id="targetSelect">
+                  <option>E</option><option>A</option>
+                  <option>B</option><option>C</option><option>D</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="demo-controls buttons-row">
+              <button class="btn" id="stepBtn">Siguiente paso →</button>
+              <button class="btn secondary" id="autoBtn">Calcular todo</button>
+              <button class="btn secondary" id="resetBtn">Reiniciar</button>
+            </div>
+          </div>
+
+          <div class="demo-box">
+            <div class="status" id="stepStatus">Listo para comenzar</div>
+            <p class="status-text" id="stepExplanation">
+              La distancia del origen es cero. Los demás nodos
+              comienzan con distancia infinita.
+            </p>
+            <div class="distance-grid" id="distanceGrid"></div>
+          </div>
+
+          <div class="demo-box">
+            <div class="number">RESULTADO DE LA RUTA</div>
+            <div class="route-result" id="routeResult">
+              Calcula los pasos para obtener la ruta mínima.
+            </div>
+            <p class="small" id="routeCost">
+              El resultado aparecerá aquí.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06: PSEUDOCÓDIGO -->
+    <section class="slide" data-number="06">
+      <div class="eyebrow">05 · LÓGICA DEL ALGORITMO</div>
+      <h2>Pseudocódigo <span class="accent">simplificado</span></h2>
+
+      <div class="two-col align-start">
+        <div class="pseudo"><span class="kw">para cada</span> nodo v:
+  distancia[v] ← ∞
+  anterior[v] ← nulo
+
+distancia[origen] ← 0
+
+<span class="kw">mientras</span> existan nodos sin visitar:
+  u ← nodo no visitado con menor distancia
+  marcar u como visitado
+
+  <span class="kw">para cada</span> vecino v de u:
+    alternativa ← distancia[u] + peso(u,v)
+
+    <span class="kw">si</span> alternativa &lt; distancia[v]:
+      distancia[v] ← alternativa
+      anterior[v] ← u
+
+<span class="kw">devolver</span> distancias y rutas</div>
+
+        <div>
+          <article class="card">
+            <div class="number">¿QUÉ GUARDA?</div>
+            <h3>Distancia y anterior</h3>
+            <p>
+              La distancia registra el costo mínimo conocido.
+              El nodo anterior permite reconstruir el recorrido.
+            </p>
+          </article>
+
+          <div class="complexity">
+            <div>
+              <strong>O(V²)</strong>
+              <span>Implementación sencilla</span>
+            </div>
+            <div>
+              <strong>O((V + E) log V)</strong>
+              <span>Con montículo binario</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 07: APLICACIONES -->
+    <section class="slide" data-number="07">
+      <div class="eyebrow">06 · APLICACIONES REALES</div>
+      <h2>¿Dónde se <span class="accent">utiliza</span>?</h2>
+
+      <div class="two-col align-start">
+        <div class="application-list">
+          <article class="application">
+            <div class="mini-icon">⌖</div>
+            <div>
+              <h3>Mapas y navegación</h3>
+              <p>Encontrar rutas de menor costo entre lugares.</p>
+            </div>
+          </article>
+
+          <article class="application">
+            <div class="mini-icon">⌁</div>
+            <div>
+              <h3>Redes informáticas</h3>
+              <p>Calcular rutas de costo mínimo en una red. El costo puede representar tiempo de transmisión o capacidad de enlace.</p>
+            </div>
+          </article>
+
+          <article class="application">
+            <div class="mini-icon">⇄</div>
+            <div>
+              <h3>Logística</h3>
+              <p>Comparar recorridos entre almacenes y destinos.</p>
+            </div>
+          </article>
+
+          <article class="application">
+            <div class="mini-icon">◎</div>
+            <div>
+              <h3>Robótica y videojuegos</h3>
+              <p>Planificar movimientos entre diferentes posiciones.</p>
+            </div>
+          </article>
+        </div>
+
+        <div>
+          <article class="card">
+            <div class="number green-text">VENTAJAS</div>
+            <h3>Resultados claros</h3>
+            <p>
+              Calcula rutas mínimas de manera sistemática y
+              puede obtener distancias desde un origen hacia
+              todos los nodos alcanzables.
+            </p>
+          </article>
+
+          <article class="card">
+            <div class="number yellow-text">LIMITACIONES</div>
+            <h3>No resuelve todos los casos</h3>
+            <p>
+              No es adecuado para aristas con pesos negativos.
+              Su eficiencia depende de la implementación. Si existen pesos negativos, puede utilizarse otro algoritmo, como Bellman-Ford.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 08: CONCLUSIÓN -->
+    <section class="slide" data-number="08">
+      <div class="eyebrow">07 · CIERRE</div>
+      <h2>Conclusión</h2>
+
+      <div class="conclusion-content">
+        <p class="closing-quote">
+          «Encontrar la mejor ruta no es adivinar:
+          es <span>comparar costos</span>, actualizar distancias
+          y elegir con criterio».
+        </p>
+        <div class="gradient-line"></div>
+        <p>
+          Dijkstra permite resolver problemas de caminos mínimos
+          siguiendo pasos ordenados. Selecciona la menor distancia
+          provisional, actualiza las rutas y reconstruye el recorrido.
+        </p>
+        <div class="callout">
+          <b>Idea para recordar:</b> origen en cero, los demás
+          en infinito; elegir el menor, actualizar los vecinos
+          y repetir. Los pesos deben ser no negativos.
+        </div>
+      </div>
+    </section>
+
+    <!-- 09: GRACIAS -->
+    <section class="slide thanks-slide" data-number="09">
+      <div class="thanks-orb thanks-orb-one"></div>
+      <div class="thanks-orb thanks-orb-two"></div>
+
+      <div class="thanks-content">
+        <div class="thanks-kicker">
+          <span class="signal-dot"></span>
+          FIN DE LA PRESENTACIÓN
+        </div>
+
+        <h2 class="thanks-title">
+          <span class="thanks-main">¡GRACIAS!</span>
+          <span class="thanks-subtitle">POR SU ATENCIÓN</span>
+        </h2>
+
+        <p class="thanks-copy">
+          Cada gran ruta comienza con una buena pregunta.
+        </p>
+
+        <div class="thanks-graph-wrap">
+          <svg class="thanks-graph" viewBox="0 0 900 250">
+            <defs>
+              <linearGradient id="thanksGradient">
+                <stop stop-color="#2f80ff"/>
+                <stop offset="1" stop-color="#55d7ff"/>
+              </linearGradient>
+              <filter id="thanksGlow">
+                <feGaussianBlur stdDeviation="5" result="blur"/>
+                <feMerge>
+                  <feMergeNode in="blur"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+            </defs>
+
+            <g class="network-dim">
+              <path d="M95 130 L215 55 L355 110 L500 50 L650 115 L800 65"/>
+              <path d="M95 130 L210 205 L355 110 L490 205 L650 115 L790 200"/>
+              <path d="M215 55 L210 205 M500 50 L490 205 M650 115 L800 65 M650 115 L790 200"/>
+            </g>
+
+            <g class="network-route" filter="url(#thanksGlow)">
+              <path class="trace trace-one" pathLength="1"
+                    d="M95 130 L215 55 L355 110 L500 50 L650 115 L800 65"/>
+              <path class="trace trace-two" pathLength="1"
+                    d="M355 110 L490 205 L650 115"/>
+            </g>
+
+            <g>
+              <circle class="net-node n1" cx="95" cy="130" r="12"/>
+              <circle class="node-halo n1" cx="95" cy="130" r="22"/>
+              <circle class="net-node n2" cx="215" cy="55" r="10"/>
+              <circle class="node-halo n2" cx="215" cy="55" r="19"/>
+              <circle class="net-node n3" cx="355" cy="110" r="13"/>
+              <circle class="node-halo n3" cx="355" cy="110" r="24"/>
+              <circle class="net-node n4" cx="500" cy="50" r="10"/>
+              <circle class="node-halo n4" cx="500" cy="50" r="19"/>
+              <circle class="net-node n5" cx="650" cy="115" r="13"/>
+              <circle class="node-halo n5" cx="650" cy="115" r="24"/>
+              <circle class="net-node n6" cx="800" cy="65" r="10"/>
+              <circle class="node-halo n6" cx="800" cy="65" r="19"/>
+              <circle class="net-node n7" cx="210" cy="205" r="8"/>
+              <circle class="net-node n8" cx="490" cy="205" r="9"/>
+              <circle class="net-node n9" cx="790" cy="200" r="8"/>
+            </g>
+
+            <g class="network-labels">
+              <text x="95" y="163">ORIGEN</text>
+              <text x="800" y="35">DESTINO</text>
+              <text x="355" y="145">RUTA ÓPTIMA</text>
+            </g>
+          </svg>
+        </div>
+
+        <div class="thanks-bottom">
+          <div class="thanks-question">
+            <span class="question-pulse">?</span>
+            <span>¿Preguntas o comentarios?</span>
+          </div>
+          <button class="btn thanks-home-btn" id="thanksHomeBtn">
+            ↺ Volver al inicio
+          </button>
+        </div>
+
+        <div class="thanks-signature">
+          <span class="signature-line"></span>
+          ALGORITMO DE DIJKSTRA
+          <span class="signature-separator">/</span>
+          CAMINOS MÍNIMOS
+          <span class="signature-line"></span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <footer class="bottombar">
+    <div class="bottom-left">
+      <span class="slide-number">
+        <b id="currentNumber">01</b> /
+        <span id="totalSlides">09</span>
+      </span>
+      <div class="dots" id="dots"></div>
+    </div>
+
+    <div class="bottom-right">
+      <span class="kbd">← → navegar</span>
+      <button class="btn secondary" id="prevBtn">← Anterior</button>
+      <button class="btn" id="nextBtn">Siguiente →</button>
+    </div>
+
+    <div class="progress-track">
+      <div class="progress-value" id="progressValue"></div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
